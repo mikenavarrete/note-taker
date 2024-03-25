@@ -34,6 +34,19 @@ fs.writeFileSync('./db/db.json', JSON.stringify(notes))
   res.json(notes)
 })
 
+app.delete('/api/notes/:id', (req,res)=> {
+  const id =  req.params.id;
+  const index = notes.findIndex(note=> note.id == id);
+
+  if (index !== -1) {
+    notes.splice(index, 1);
+    fs.writeFileSync('./db/db.json', JSON.stringify(notes));
+    res.json(notes);
+  } else {
+    res.status(404).json({ error: 'Note not found' });
+  }
+});
+
 
 
 
